@@ -1,0 +1,7 @@
+{
+  "name": "client-r2d2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

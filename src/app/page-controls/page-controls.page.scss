@@ -1,0 +1,14 @@
+#controls {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  transform: translateY(-50%);
+}
+
+#speed {
+  width: 200px;
+}
