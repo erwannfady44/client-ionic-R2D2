@@ -13,10 +13,10 @@ export class R2d2Service {
   private static direction = -1;
   private static token;
   public static data = {
-    speed1: 0,
     direction1: 0,
-    speed2: 0,
     direction2: 0,
+    speed1: 0,
+    speed2: 0,
     token: ""
   }
 
@@ -55,8 +55,8 @@ export class R2d2Service {
           break;
 
         case 1:
-          R2d2Service.data.direction1 = 2;
-          R2d2Service.data.direction2 = 1;
+          R2d2Service.data.direction1 = 1;
+          R2d2Service.data.direction2 = 2;
           break;
 
         case 2:
@@ -65,9 +65,13 @@ export class R2d2Service {
           break;
 
         case 3:
-          R2d2Service.data.direction1 = 1;
-          R2d2Service.data.direction2 = 2;
+          R2d2Service.data.direction1 = 2;
+          R2d2Service.data.direction2 = 1;
           break;
+
+        default:
+          R2d2Service.data.direction1 = 0;
+          R2d2Service.data.direction2 = 0;
       }
     })
   }
