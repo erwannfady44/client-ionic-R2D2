@@ -9,10 +9,6 @@ import {PageControlsPage} from "../page-controls/page-controls.page";
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
-  }
-
-  connect() {
-
+  constructor() {
   }
 }

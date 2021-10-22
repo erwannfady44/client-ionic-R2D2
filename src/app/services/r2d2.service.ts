@@ -1,17 +1,27 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {interval, Subject, Subscription} from "rxjs";
 import {WebsocketService} from "./websocket.service";
 import {environment} from "../../environments/environment";
 
 
+// @ts-ignore
 @Injectable({
   providedIn: 'root'
 })
 export class R2d2Service {
   public server: Subject<string>
+  private static direction = -1;
+  private static token;
+  public static data = {
+    speed1: 0,
+    direction1: 0,
+    speed2: 0,
+    direction2: 0,
+    token: ""
+  }
 
-  public speed: number = 0;
-  public direction: number;
+  private send: Subscription;
+
 
   directionChange: Subject<number> = new Subject<number>();
 
@@ -22,45 +32,61 @@ export class R2d2Service {
         return JSON.parse(response.data);
       })
 
+    this.send = interval(200).subscribe(
+      () => {
+        if (R2d2Service.data.token === '') {
+          console.log("token : " + R2d2Service.token)
+          this.getToken();
+        } else {
+          // @ts-ignore
+          this.server.next(R2d2Service.data)
+        }
+      }
+    )
+
     this.directionChange.subscribe(value => {
-      this.direction = value;
-      let directionMotA: number = 0;
-      let directionMotB: number = 0;
+      R2d2Service.direction = value;
+
       // @ts-ignore
-      switch (this.direction) {
+      switch (R2d2Service.direction) {
         case 0:
-          directionMotA = 1;
-          directionMotB = 1;
+          R2d2Service.data.direction1 = 2;
+          R2d2Service.data.direction2 = 2;
           break;
 
         case 1:
-          directionMotA = 1;
-          directionMotB = -1;
+          R2d2Service.data.direction1 = 2;
+          R2d2Service.data.direction2 = 1;
           break;
 
         case 2:
-          directionMotA = -1;
-          directionMotB = -1;
+          R2d2Service.data.direction1 = 1;
+          R2d2Service.data.direction2 = 1;
           break;
 
         case 3:
-          directionMotA = -1;
-          directionMotB = 1;
+          R2d2Service.data.direction1 = 1;
+          R2d2Service.data.direction2 = 2;
           break;
       }
-      // @ts-ignore
-      this.server.next({
-        directionMotA,
-        speedMotA: this.speed,
-        directionMotB,
-        speedMotB: this.speed
-      });
     })
   }
+
 
   changeDirection(direction: number): void {
     this.directionChange.next(direction)
   }
 
-
+  private getToken() {
+    // @ts-ignore
+    this.server.next({token: ""})
+    this.server.subscribe(msg => {
+      // @ts-ignore
+      if (!R2d2Service.data.token) {
+        // @ts-ignore
+        R2d2Service.data.token = msg.token
+        this.server.unsubscribe();
+      }
+    });
+  }
 }

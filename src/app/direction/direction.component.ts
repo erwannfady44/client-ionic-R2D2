@@ -12,6 +12,7 @@ export class DirectionComponent implements OnInit {
   ngOnInit() {}
 
   changeDirection(newDirection: number): void {
+    // @ts-ignore
     this.r2d2Service.changeDirection(newDirection);
   }
 

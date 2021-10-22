@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import * as Rx from 'rxjs/Rx';
+import {R2d2Service} from "./r2d2.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
+  ws: WebSocket;
 
   constructor() {
   }
@@ -20,25 +22,26 @@ export class WebsocketService {
   }
 
   private create(url): Rx.Subject<MessageEvent> {
-    let ws = new WebSocket(url);
+    this.ws = new WebSocket(url);
 
     let observable = Rx.Observable.create(
       (obs: Rx.Observer<MessageEvent>) => {
-        ws.onmessage = obs.next.bind(obs);
-        ws.onerror = obs.error.bind(obs);
-        ws.onclose = obs.complete.bind(obs);
-        return ws.close.bind(ws);
+        this.ws.onmessage = obs.next.bind(obs);
+        this.ws.onerror = obs.error.bind(obs);
+        this.ws.onclose = obs.complete.bind(obs);
+        return this.ws.close.bind(this.ws);
       }
     )
 
     let observer = {
       next: (data: Object) => {
-        if (ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify(data));
+        if (this.ws.readyState === WebSocket.OPEN) {
+          this.ws.send(JSON.stringify(data));
         }
       }
     }
 
     return Rx.Subject.create(observer, observable);
   }
+
 }
