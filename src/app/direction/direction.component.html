@@ -1,7 +1,7 @@
 <div class="fleche-container">
   <div></div>
   <div class="fleche">
-    <ion-button  (mousedown)="this.changeDirection(0)" (mouseup)="this.changeDirection(-1)">
+    <ion-button (touchstart)="this.changeDirection(0)" (touchend)="this.changeDirection(-1)" (mousedown)="this.changeDirection(0)" (mouseup)="this.changeDirection(-1)">
       <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-arrow-up-short"
            fill="currentColor"
            xmlns="http://www.w3.org/2000/svg">
@@ -12,7 +12,7 @@
   </div>
   <div></div>
   <div class="fleche">
-    <ion-button (mousedown)="this.changeDirection(1)" (mouseup)="this.changeDirection(-1)">
+    <ion-button (touchstart)="this.changeDirection(1)" (touchend)="this.changeDirection(-1)" (mousedown)="this.changeDirection(1)" (mouseup)="this.changeDirection(-1)">
       <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-arrow-left-short"
            fill="currentColor"
            xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@
     </ion-button>
   </div>
   <div class="fleche">
-    <ion-button (mousedown)="this.changeDirection(2)" (mouseup)="this.changeDirection(-1)">
+    <ion-button (touchstart)="this.changeDirection(2)" (touchend)="this.changeDirection(-1)" (mousedown)="this.changeDirection(2)" (mouseup)="this.changeDirection(-1)">
       <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-arrow-down-short"
            fill="currentColor"
            xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@
     </ion-button>
   </div>
   <div class="fleche">
-    <ion-button (mousedown)="this.changeDirection(3)" (mouseup)="this.changeDirection(-1)">
+    <ion-button (touchstart)="this.changeDirection(3)" (touchend)="this.changeDirection(-1)" (mousedown)="this.changeDirection(3)" (mouseup)="this.changeDirection(-1)">
       <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-arrow-right-short"
            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd"

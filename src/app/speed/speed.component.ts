@@ -7,7 +7,7 @@ import {R2d2Service} from "../services/r2d2.service";
   styleUrls: ['./speed.component.scss'],
 })
 export class SpeedComponent implements OnInit {
-  min:number =  -255;
+  min:number =  0;
   max:number = 255;
   speed: number;
   constructor(public r2d2Service: R2d2Service) {
@@ -17,5 +17,8 @@ export class SpeedComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  changeSpeed(speed): void {
+    this.r2d2Service.data.speed1 = speed;
+    this.r2d2Service.data.speed2 = speed;
+  }
 }

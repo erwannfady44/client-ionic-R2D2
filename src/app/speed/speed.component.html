@@ -1,4 +1,5 @@
 <div>
-  <p>{{r2d2Service.speed}}</p>
-  <ion-range [min]="min" [max]="max" pin="true" [(ngModel)]="r2d2Service.speed"></ion-range>
+  <p>{{speed}}</p>
+  <ion-range [min]="min" [max]="max" pin="true" [(ngModel)]="speed" (ngModelChange)="changeSpeed(speed)"></ion-range>
 </div>
+

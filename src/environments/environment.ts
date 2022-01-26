@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  R2D2_URL: "ws://localhost:3000/webSocket"
+  R2D2_URL: "ws://192.168.0.100:3000/webSocket"
 };
 
 /*
