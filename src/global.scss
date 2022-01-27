@@ -28,3 +28,16 @@
 ion-title {
   text-align: center;
 }
+
+div.modal-wrapper.ion-overlay-wrapper.sc-ion-modal-md {
+  position: absolute;
+  width: 50%;
+  height: 30%;
+  top: 30%;
+  left: 25%;
+  border: 3px solid white;
+  border-radius: 15px;
+  z-index: 2;
+  opacity: 0.8;
+  background-color: black;
+}

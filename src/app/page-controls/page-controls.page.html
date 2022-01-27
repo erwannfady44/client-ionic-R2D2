@@ -10,8 +10,12 @@
       <ion-title size="large">R2D2</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div id="controls">
-    <app-direction id="direction"></app-direction>
-    <app-speed id="speed"></app-speed>
+  <div class="content">
+    <!--<ion-button id="disconnection" routerLink="/home" (click)="disconnection()"></ion-button>-->
+    <fa-icon id="disconnection" routerLink="/home" (click)="disconnection()" [icon]="test"></fa-icon>
+    <div id="controls">
+      <app-direction id="direction"></app-direction>
+      <app-speed id="speed"></app-speed>
+    </div>
   </div>
 </ion-content>

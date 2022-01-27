@@ -1,3 +1,14 @@
+#head {
+  text-align: left;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+fa-icon {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 #container {
   text-align: center;
 
@@ -26,3 +37,19 @@
   text-decoration: none;
 }
 
+.settings {
+  position: absolute;
+  width: 50%;
+  height: 30%;
+  top: 35%;
+  left: 25%;
+  border: 3px solid white;
+  border-radius: 15px;
+  z-index: 2;
+  opacity: 0.8;
+  background-color: black;
+}
+
+.test {
+  display: none;
+}

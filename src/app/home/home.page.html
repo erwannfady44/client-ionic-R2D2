@@ -12,8 +12,12 @@
       <ion-title size="large">R2D2</ion-title>
     </ion-toolbar>
   </ion-header>
+  <div id="head">
+    <fa-icon [icon]="icon" (click)="initSettings()"></fa-icon>
+  </div>
 
   <div id="container">
-    <ion-button routerLink="/page-controls">Connexion</ion-button>
+    <ion-button (click)="connect()">Connexion</ion-button>
   </div>
 </ion-content>
+

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {interval, Subject, Subscription} from 'rxjs';
 import {WebsocketService} from './websocket.service';
-import {environment} from '../../environments/environment';
 
 
 // @ts-ignore
@@ -9,9 +8,8 @@ import {environment} from '../../environments/environment';
   providedIn: 'root'
 })
 export class R2d2Service {
-  public server: Subject<string>;
-  private direction = -1;
-  private token;
+  public static ip: string;
+  public server: Subject<any>;
   public data = {
     direction1: 0,
     direction2: 0,
@@ -19,17 +17,18 @@ export class R2d2Service {
     speed2: 0,
     token: ''
   };
+  directionChange: Subject<number> = new Subject<number>();
+  private direction = -1;
+  private token;
   private send: Subscription;
 
 
-  directionChange: Subject<number> = new Subject<number>();
-
   constructor(private wsService: WebsocketService) {
     this.server = <Subject<any>>wsService
-      .connect(environment.R2D2_URL)
+      .connect('ws://'+R2d2Service.ip+':3000/webocket')
       .map((response: MessageEvent) => JSON.parse(response.data));
 
-    this.send = interval(10).subscribe(
+    this.send = interval(200).subscribe(
       () => {
         if (this.data.token === '') {
           console.log('token : ' + this.token);
@@ -73,8 +72,11 @@ export class R2d2Service {
     });
   }
 
+  public disconnect(): void {
+    this.wsService.disconnect();
+  }
 
-  changeDirection(direction: number): void {
+  public changeDirection(direction: number): void {
     this.directionChange.next(direction);
   }
 
@@ -91,3 +93,4 @@ export class R2d2Service {
     });
   }
 }
+

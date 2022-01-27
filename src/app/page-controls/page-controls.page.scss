@@ -8,7 +8,21 @@
   top: 60%;
   transform: translateY(-50%);
 }
+.content {
+  text-align: right;
+  margin-top: 15px;
+  margin-right: 15px;
+}
 
+#disconnection {
+  margin-top: 15px;
+  margin-right: 15px;
+}
 #speed {
   width: 200px;
+}
+
+fa-icon {
+  cursor: pointer;
+  font-size: 2rem;
 }

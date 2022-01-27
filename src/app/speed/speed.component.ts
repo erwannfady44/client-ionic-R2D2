@@ -9,7 +9,7 @@ import {R2d2Service} from "../services/r2d2.service";
 export class SpeedComponent implements OnInit {
   min:number =  0;
   max:number = 255;
-  speed: number;
+  speed: number = 0;
   constructor(public r2d2Service: R2d2Service) {
 
   }
