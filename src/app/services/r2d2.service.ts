@@ -24,8 +24,9 @@ export class R2d2Service {
 
 
   constructor(private wsService: WebsocketService) {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     this.server = <Subject<any>>wsService
-      .connect('ws://'+R2d2Service.ip+':3000/webocket')
+      .connect('ws://'+R2d2Service.ip+':3000/webSocket')
       .map((response: MessageEvent) => JSON.parse(response.data));
 
     this.send = interval(200).subscribe(
