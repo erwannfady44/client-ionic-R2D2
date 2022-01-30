@@ -10,7 +10,7 @@ import {ModalController} from '@ionic/angular';
 export class SettingsComponent implements OnInit {
   ip: string = localStorage.getItem('ip');
 
-  constructor(private r2d2Service: R2d2Service, private modalCtr: ModalController) {
+  constructor(private modalCtr: ModalController) {
   }
 
   ngOnInit() {

@@ -24,53 +24,56 @@ export class R2d2Service {
 
 
   constructor(private wsService: WebsocketService) {
+    const IP = localStorage.getItem('ip');
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    this.server = <Subject<any>>wsService
-      .connect('ws://'+R2d2Service.ip+':3000/webSocket')
-      .map((response: MessageEvent) => JSON.parse(response.data));
+    if (IP) {
+      this.server = <Subject<any>>wsService
+        .connect('ws://' + R2d2Service.ip + ':3000/webSocket')
+        .map((response: MessageEvent) => JSON.parse(response.data));
 
-    this.send = interval(200).subscribe(
-      () => {
-        if (this.data.token === '') {
-          console.log('token : ' + this.token);
-          this.getToken();
-        } else {
-          // @ts-ignore
-          this.server.next(this.data);
+      this.send = interval(10).subscribe(
+        () => {
+          if (this.data.token === '') {
+            console.log('token : ' + this.token);
+            this.getToken();
+          } else {
+            // @ts-ignore
+            this.server.next(this.data);
+          }
         }
-      }
-    );
+      );
 
-    this.directionChange.subscribe(value => {
-      this.direction = value;
+      this.directionChange.subscribe(value => {
+        this.direction = value;
 
-      // @ts-ignore
-      switch (this.direction) {
-        case 0:
-          this.data.direction1 = 2;
-          this.data.direction2 = 2;
-          break;
+        // @ts-ignore
+        switch (this.direction) {
+          case 0:
+            this.data.direction1 = 2;
+            this.data.direction2 = 2;
+            break;
 
-        case 1:
-          this.data.direction1 = 1;
-          this.data.direction2 = 2;
-          break;
+          case 1:
+            this.data.direction1 = 1;
+            this.data.direction2 = 2;
+            break;
 
-        case 2:
-          this.data.direction1 = 1;
-          this.data.direction2 = 1;
-          break;
+          case 2:
+            this.data.direction1 = 1;
+            this.data.direction2 = 1;
+            break;
 
-        case 3:
-          this.data.direction1 = 2;
-          this.data.direction2 = 1;
-          break;
+          case 3:
+            this.data.direction1 = 2;
+            this.data.direction2 = 1;
+            break;
 
-        default:
-          this.data.direction1 = 0;
-          this.data.direction2 = 0;
-      }
-    });
+          default:
+            this.data.direction1 = 0;
+            this.data.direction2 = 0;
+        }
+      });
+    }
   }
 
   public disconnect(): void {

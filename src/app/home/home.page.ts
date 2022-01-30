@@ -32,8 +32,7 @@ export class HomePage implements OnInit {
     });
 
     settings.onDidDismiss().then((settingsResponse) => {
-      if (settingsResponse !== null) {
-        R2d2Service.ip = settingsResponse.data;
+      if (settingsResponse.data) {
         localStorage.setItem('ip', settingsResponse.data);
       }
     });
