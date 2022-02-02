@@ -14,8 +14,8 @@
     <!--<ion-button id="disconnection" routerLink="/home" (click)="disconnection()"></ion-button>-->
     <fa-icon id="disconnection" routerLink="/home" (click)="disconnection()" [icon]="test"></fa-icon>
     <div id="controls">
-      <app-direction id="direction"></app-direction>
-      <app-speed id="speed"></app-speed>
+      <app-direction id="direction" [r2d2Service]="r2d2Service"></app-direction>
+      <app-speed id="speed" [r2d2Service]="r2d2Service"></app-speed>
     </div>
   </div>
 </ion-content>
