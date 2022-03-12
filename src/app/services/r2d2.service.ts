@@ -8,8 +8,8 @@ import {WebsocketService} from './websocket.service';
   providedIn: 'root'
 })
 export class R2d2Service {
-  public static ip: string;
-  public server: Subject<any>;
+  public static ip: string = "192.168.0.1";
+  public static server: Subject<any>;
   public data = {
     direction1: 0,
     direction2: 0,
@@ -24,56 +24,60 @@ export class R2d2Service {
 
 
   constructor(private wsService: WebsocketService) {
-    const IP = localStorage.getItem('ip');
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    if (IP) {
-      this.server = <Subject<any>>wsService
-        .connect('ws://' + R2d2Service.ip + ':3000/webSocket')
-        .map((response: MessageEvent) => JSON.parse(response.data));
+    //const IP = localStorage.getItem('ip');
 
-      this.send = interval(10).subscribe(
-        () => {
-          if (this.data.token === '') {
-            console.log('token : ' + this.token);
-            this.getToken();
-          } else {
-            // @ts-ignore
-            this.server.next(this.data);
-          }
+
+    R2d2Service.server = <Subject<any>>this.wsService
+      .connect('ws://' + R2d2Service.ip + ':3000/webSocket')
+      .map((response: MessageEvent) => JSON.parse(response.data));
+
+    this.send = interval(10).subscribe(
+      () => {
+        if (this.data.token === '') {
+          console.log('token : ' + this.token);
+          this.getToken();
+        } else {
+          // @ts-ignore
+          R2d2Service.server.next(this.data);
         }
-      );
+      }
+    );
 
-      this.directionChange.subscribe(value => {
-        this.direction = value;
+    this.directionChange.subscribe(value => {
+      this.direction = value;
 
-        // @ts-ignore
-        switch (this.direction) {
-          case 0:
-            this.data.direction1 = 2;
-            this.data.direction2 = 2;
-            break;
+      // @ts-ignore
+      switch (this.direction) {
+        case 0:
+          this.data.direction1 = 2;
+          this.data.direction2 = 2;
+          break;
 
-          case 1:
-            this.data.direction1 = 1;
-            this.data.direction2 = 2;
-            break;
+        case 1:
+          this.data.direction1 = 1;
+          this.data.direction2 = 2;
+          break;
 
-          case 2:
-            this.data.direction1 = 1;
-            this.data.direction2 = 1;
-            break;
+        case 2:
+          this.data.direction1 = 1;
+          this.data.direction2 = 1;
+          break;
 
-          case 3:
-            this.data.direction1 = 2;
-            this.data.direction2 = 1;
-            break;
+        case 3:
+          this.data.direction1 = 2;
+          this.data.direction2 = 1;
+          break;
 
-          default:
-            this.data.direction1 = 0;
-            this.data.direction2 = 0;
-        }
-      });
-    }
+        default:
+          this.data.direction1 = 0;
+          this.data.direction2 = 0;
+      }
+    });
+  }
+
+
+  public connect(): void {
+    //this.wsService = new WebsocketService();
   }
 
   public disconnect(): void {
@@ -86,13 +90,13 @@ export class R2d2Service {
 
   private getToken() {
     // @ts-ignore
-    this.server.next({token: ''});
-    this.server.subscribe(msg => {
+    R2d2Service.server.next({token: ''});
+    R2d2Service.server.subscribe(msg => {
       // @ts-ignore
       if (!this.data.token) {
         // @ts-ignore
         this.data.token = msg.token;
-        this.server.unsubscribe();
+        R2d2Service.server.unsubscribe();
       }
     });
   }
