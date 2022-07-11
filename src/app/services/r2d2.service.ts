@@ -8,13 +8,14 @@ import {WebsocketService} from './websocket.service';
   providedIn: 'root'
 })
 export class R2d2Service {
-  public static ip: string = "192.168.0.1";
-  public static server: Subject<any>;
+  public static ip = `{192.168.0.1}`;
+  public server: Subject<any>;
   public data = {
     direction1: 0,
     direction2: 0,
     speed1: 0,
     speed2: 0,
+    head: 0,
     token: ''
   };
   directionChange: Subject<number> = new Subject<number>();
@@ -24,21 +25,19 @@ export class R2d2Service {
 
 
   constructor(private wsService: WebsocketService) {
-    //const IP = localStorage.getItem('ip');
-
-
-    R2d2Service.server = <Subject<any>>this.wsService
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    this.server = <Subject<any>>this.wsService
       .connect('ws://' + R2d2Service.ip + ':3000/webSocket')
       .map((response: MessageEvent) => JSON.parse(response.data));
 
-    this.send = interval(10).subscribe(
+    this.send = interval(100).subscribe(
       () => {
         if (this.data.token === '') {
           console.log('token : ' + this.token);
           this.getToken();
         } else {
           // @ts-ignore
-          R2d2Service.server.next(this.data);
+          this.server.next(this.data);
         }
       }
     );
@@ -67,17 +66,22 @@ export class R2d2Service {
           this.data.direction1 = 2;
           this.data.direction2 = 1;
           break;
-
+        case 4:
+          this.data.head = 1;
+          this.data.direction1 = 0;
+          this.data.direction2 = 0;
+          break;
+        case 5:
+          this.data.head = 2;
+          this.data.direction1 = 0;
+          this.data.direction2 = 0;
+          break;
         default:
           this.data.direction1 = 0;
           this.data.direction2 = 0;
+          this.data.head = 0;
       }
     });
-  }
-
-
-  public connect(): void {
-    //this.wsService = new WebsocketService();
   }
 
   public disconnect(): void {
@@ -90,13 +94,13 @@ export class R2d2Service {
 
   private getToken() {
     // @ts-ignore
-    R2d2Service.server.next({token: ''});
-    R2d2Service.server.subscribe(msg => {
+    this.server.next({token: ''});
+    this.server.subscribe(msg => {
       // @ts-ignore
       if (!this.data.token) {
         // @ts-ignore
         this.data.token = msg.token;
-        R2d2Service.server.unsubscribe();
+        this.server.unsubscribe();
       }
     });
   }
